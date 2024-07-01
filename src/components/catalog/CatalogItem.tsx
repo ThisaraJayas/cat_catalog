@@ -1,10 +1,10 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import List from "@mui/material/List";
-import Search, { Cat } from "./Search";
-import '../styles/catalog.css'
+import '../../styles/catalog.css'
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos'
 import { Link } from "react-router-dom";
+import { Cat } from "../Search";
 
 
 interface CatalogProps {
