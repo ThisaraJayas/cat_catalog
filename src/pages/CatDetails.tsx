@@ -1,13 +1,16 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react'
-import { useParams } from 'react-router-dom'
+import { Link, useParams } from 'react-router-dom'
+import '../styles/catdetail.css'
+import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 
 interface CatBreed{
     id: string;
   name: string;
   description: string;
     reference_image_id: string;
-    origin:string
+    origin:string;
+    life_span:string
 }
 interface CatImage{
     url: string
@@ -24,6 +27,8 @@ export default function CatDetails() {
               `https://api.thecatapi.com/v1/breeds/${id}`
             );
             setCatBreed(response.data)
+            console.log(response.data);
+            
             try{
                 const catImage_ID= catBreed?.reference_image_id
                 const catImageUrl= await axios.get(`https://api.thecatapi.com/v1/images/search?limit=1&breed_ids=${id}&api_key=${catImage_ID}`)
@@ -43,11 +48,23 @@ export default function CatDetails() {
         return <div>Loading...</div>;
       }
   return (
-    <div>
-        {catBreed.id}
-        {catBreed.origin}
-        {catBreed.reference_image_id}
-       <img src={catImage.url} alt={catBreed.name} style={{ maxWidth: '30%', height: 'auto' }} />
-    </div>
+
+        <div>
+          <div className="flex items-center mt-3 ml-3 cursor-pointer">
+            <Link to={'/'}><ArrowBackIosIcon /></Link>
+            <h1 className='text-4xl font-bold text-center mb-3 flex-grow'>{catBreed.name}</h1>
+          </div>
+          <div className="detail-container">
+            <div className="flex justify-center mb-4">
+              <img className="cat-image rounded-lg" src={catImage.url} alt={catBreed.name} />
+            </div>
+            <div className="cat-details">
+              <p className='text-2xl mb-2'><b>Origins : </b>{catBreed.origin}</p>
+              <p className='text-2xl mb-2'><b>Life Span : </b>{catBreed.life_span}</p>
+              <p className="text-2xl mb-2"><b>Description : </b></p>
+              <p className='text-1xl mb-2'>{catBreed.description}</p>
+            </div>
+          </div>
+        </div>
   )
 }
