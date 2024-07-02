@@ -5,46 +5,22 @@ import InputBase from "@mui/material/InputBase";
 import IconButton from "@mui/material/IconButton";
 import SearchIcon from "@mui/icons-material/Search";
 import CatalogItem from "./catalog/CatalogItem";
+import { useDispatch, useSelector } from "react-redux";
+import { AppDispatch, RootState } from "../Redux/store";
+import { fetchBreeds } from "../Redux/slice/CatBreedSlice";
 
-export interface Cat {
-  id: number;
-  name: string;
-}
 export default function Search() {
-  const [catData, setCatData] = useState<Cat[]>([]);
-  const [filteredCatData, setFilteredCatData] = useState<Cat[]>([]);
   const [searchTerm, setSearchTerm] = useState("");
+  const dispatch = useDispatch<AppDispatch>()
+  const {breeds} = useSelector((state:RootState)=>state.catBreed)
 
-  console.log(catData);
+  useEffect(()=>{
+    dispatch(fetchBreeds())
+  },[dispatch])
 
-  useEffect(() => {
-    const retriveCatBreed = async () => {
-      try {
-        const response = await axios.get(
-          "https://api.thecatapi.com/v1/breeds?limit=20"
-        );
-        console.log(response.data);
-        setCatData(response.data);
-      } catch (error) {
-        console.log(error);
-      }
-    };
-    retriveCatBreed();
-  }, []);
-
-  useEffect(() => {
-    const filterCatBreeds = () => {
-      if (searchTerm === "") {
-        setFilteredCatData(catData); // Show all cat breeds if search term is empty
-      } else {
-        const filteredBreeds = catData.filter((cat) =>
-          cat.name.toLowerCase().includes(searchTerm.toLowerCase())
-        );
-        setFilteredCatData(filteredBreeds);
-      }
-    };
-    filterCatBreeds();
-  }, [searchTerm, catData]);
+  const searchCatBreed =breeds.filter((breed)=>
+    breed.name.toLowerCase().includes(searchTerm.toLowerCase())
+  )
 
   return (
     <div className="flex flex-col items-center mt-6">
@@ -62,7 +38,7 @@ export default function Search() {
           <SearchIcon />
         </IconButton>
       </Paper>
-      <CatalogItem filteredCatData={filteredCatData} />
+      <CatalogItem filteredCatData={searchCatBreed} />
     </div>
   );
 }
