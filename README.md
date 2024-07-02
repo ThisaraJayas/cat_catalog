@@ -22,8 +22,9 @@ Make sure you have the following installed on your local machine:
 
 ```bash
 git clone https://github.com/your-username/cat-catalog.git
-cd cat-catalog ```bash
+cd cat-catalog
 
+```
 ### 2. Install Dependencies (recommond to install to avoid crashes)
 ```bash
 npm install
