@@ -6,6 +6,7 @@ import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState } from '../../Redux/store';
 import { fetchBreedDetails } from '../../Redux/slice/CatBreedSlice';
+import CircularProgress from '@mui/material/CircularProgress';
 
 
 export default function CatDetailCard() {
@@ -19,9 +20,11 @@ export default function CatDetailCard() {
       }
       }, [dispatch,id]);
 
-      // if (!catBreed || !catImage) {
-      //   return <div>Loading...</div>;
-      // }
+      if (status =='loading') {
+        return <div className='flex items-center justify-center mt-20'>
+            <CircularProgress size={'20%'}  disableShrink />
+          </div>;
+      }
   return (
 
         <div>
