@@ -28,4 +28,3 @@ cd cat-catalog
 ### 2. Install Dependencies (recommond to install to avoid crashes)
 ```bash
 npm install
->>>>>>> 920ac62d942f3b53edf6f293482ac20ddfe8db03
