@@ -1,4 +1,3 @@
-import axios from "axios";
 import React, { useEffect, useState } from "react";
 import Paper from "@mui/material/Paper";
 import InputBase from "@mui/material/InputBase";
@@ -7,20 +6,21 @@ import SearchIcon from "@mui/icons-material/Search";
 import CatalogItem from "./catalog/CatalogItem";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../Redux/store";
-import { fetchBreeds } from "../Redux/slice/CatBreedSlice";
+import { fetchBreeds } from "../Redux/CatBreed/CatBreedAction";
 
 export default function Search() {
   const [searchTerm, setSearchTerm] = useState("");
-  const dispatch = useDispatch<AppDispatch>()
-  const {breeds} = useSelector((state:RootState)=>state.catBreed)
+  const dispatch = useDispatch<AppDispatch>();
+  const { breeds } = useSelector((state: RootState) => state.catBreed);
 
-  useEffect(()=>{
-    dispatch(fetchBreeds())
-  },[dispatch])
+  useEffect(() => {
+    dispatch(fetchBreeds());
+  }, [dispatch]);
 
-  const searchCatBreed =breeds.filter((breed)=>
+  //filter cat breed names based on the search term
+  const searchCatBreed = breeds.filter((breed) =>
     breed.name.toLowerCase().includes(searchTerm.toLowerCase())
-  )
+  );
 
   return (
     <div className="flex flex-col items-center mt-6">
